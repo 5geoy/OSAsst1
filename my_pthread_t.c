@@ -5,6 +5,11 @@
  */
 #include <stdlib.h>
 #include "my_pthread_t.h
+#include <sys/time.h>
+#include <unistd.h>
+#include <signal.h>
+
+
 int my_pthread_create( pthread_t * thread, pthread_attr_t * attr, void *(*function)(void*), void * arg){
 
 }
