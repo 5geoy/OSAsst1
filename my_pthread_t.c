@@ -4,26 +4,27 @@
  * This file is the implementation of the pthreads.
  */
 #include <stdlib.h>
-#include "my_pthread_t.h
+#include "my_pthread_t.h"
 #include <sys/time.h>
 #include <unistd.h>
 #include <signal.h>
+#include <ucontext.h>
 
 
-int my_pthread_create( pthread_t * thread, pthread_attr_t * attr, void *(*function)(void*), void * arg){
-
+int my_pthread_create(my_pthread_t *thread, my_pthread_attr_t *attr, void *(*function)(void*), void * arg){
+	
 }
 
 void my_pthread_yield(){
 }
 
-void pthread_exit(void *value_ptr){
+void my_pthread_exit(void *value_ptr){
 }
 
-int my_pthread_join(pthread_t thread, void **value_ptr){
+int my_pthread_join(my_pthread_t thread, void **value_ptr){
 }
 
-int my_pthread_mutex_init(my_pthread_mutex_t *mutex, const pthread_mutexattr_t *mutexattr){
+int my_pthread_mutex_init(my_pthread_mutex_t *mutex, const my_pthread_mutexattr_t *mutexattr){
 }
 
 int my_pthread_mutex_lock(my_pthread_mutex_t *mutex){
