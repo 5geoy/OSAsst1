@@ -9,9 +9,22 @@
 #include <unistd.h>
 #include <signal.h>
 #include <ucontext.h>
-
+#include "queue.c"
+#include <string.h>
 
 int my_pthread_create(my_pthread_t *thread, my_pthread_attr_t *attr, void *(*function)(void*), void * arg){
+
+	// Initialize thread
+	thread = (my_pthread_t *) malloc(sizeof(my_pthread_t));
+	thread->context = (ucontext_t *) malloc(sizeof(ucontext_t));
+	
+	// Get context
+	if (getcontext(thread->context) == -1)
+		{
+		// Error
+		return -1;
+		}
+		
 	
 }
 
