@@ -1,17 +1,3 @@
-typedef struct queue_node {
-	int priority;
-	my_pthread_t* thread;
-	struct queue_node *next;
-}queue_node;
-
-
-typedef struct my_pthread_t {
-	//fill in with rest needed
-	int thread_id;
-	ucontext_t * context;
-	char * function_name;
-}my_pthread_t;
-
 
 /*
   buildss a queue_node and places at end of queue
