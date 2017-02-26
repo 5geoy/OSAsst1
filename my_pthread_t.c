@@ -17,37 +17,40 @@
 // Global variables
 int thread_counter = 1;
 int initial_thread = 1;
+queue * q;
+ucontext_t * main_context; 
+ucontext_t * scheduler_context;
 
 int my_pthread_create(my_pthread_t *thread, my_pthread_attr_t *attr, void *(*function)(void*), void * arg){
 
 	// Initialize thread
 	thread = (my_pthread_t *) malloc(sizeof(my_pthread_t));
 	thread->context = (ucontext_t *) malloc(sizeof(ucontext_t));
-	
-	// Get context	
+
+	// Get context
 	if (getcontext(thread->context) == -1)
 		{
 		// Error
 		return -1;
 		}
-	
+
 	// Set thread id, stack
 	thread->thread_id = thread_counter++;
-	(thread->context)->uc_stack.ss_pp = malloc(STACK_SIZE);	
+	(thread->context)->uc_stack.ss_pp = malloc(STACK_SIZE);
 	(thread->context)->uc_stack.ss_size = STACK_SIZE;
 	(thread->context)->uc_link = NULL;
-	
+
 	// Make context with function
 	makecontext(thread->context, (void(*)()) function, 1, arg);
-	
+
 	// Add to priority queue
-	
+
 	// Do stuff needed if this is the first thread made
 	if (initial_thread == 1)
 		{
 		initial_thread = 0;
 		}
-		
+
 	return 0;
 }
 
