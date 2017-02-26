@@ -2,6 +2,7 @@
 /*
   buildss a queue_node and places at end of queue
   return last_node after new enqueue
+	
 */
 
 queue_node* enqueue(int priority, my_pthread_t * thread, queue_node *last_node){
@@ -74,4 +75,8 @@ void printQueue(queue_node * last_node){
 		printf("%s\n", ptr->thread->function_name);
 		ptr++;
 	}
+}
+
+void priorityThread(queue_node * last_node, my_pthread_t thread){
+
 }
