@@ -16,7 +16,6 @@
 
 // Global variables
 int thread_counter = 1;
-int initial_thread = 1;
 queue * queue;
 ucontext_t * main_context;
 ucontext_t * scheduler_context;
@@ -25,39 +24,34 @@ int init = 0;
 
 int my_pthread_create(my_pthread_t *thread, my_pthread_attr_t *attr, void *(*function)(void*), void * arg){
 
-  if (init == 0){
-    // special case on the first iteration
+	if (init == 0){
+		// special case on the first iteration
 
-      // Allocate memory for thread stack
-      char * thread_stack = (char *)malloc(2048);
+		// Allocate memory for thread stack
+		char * thread_stack = (char *)malloc(2048);
 
-      // Create ucontext
-      ucontext_t context;
-      ucontext_t * main_context = &context;
+		// Create ucontext
+		ucontext_t context;
+		ucontext_t * main_context = &context;
 
-      // Initialize ucontext
-      if (getcontext(main_context) == -1) {
-        return -1;
-      }
+		// Initialize ucontext
+		if (getcontext(main_context) == -1) {
+		return -1;
+		}
 
-      main_context->uc_stack.ss_sp = thread_stack;
-      main_context->uc_stack.ss_size = sizeof(thread_stack);
-      main_context->uc_link = sched_ctx;
+		main_context->uc_stack.ss_sp = thread_stack;
+		main_context->uc_stack.ss_size = sizeof(thread_stack);
+		main_context->uc_link = sched_ctx;
 
-      //not sure what to put here
-      makecontext(main_context, (void (*)(void))function, 1, ******);
+		//not sure what to put here
+		makecontext(main_context, (void (*)(void))function, 1, ******);
 
-      /// Library: new thread initialized\n");
+		/// Library: new thread initialized\n");
 
-      // Add thread ucontext to queue
-      enqueue(queue, main_context);
+		// Add thread ucontext to queue
+		enqueue(queue, main_context);
 
-  } else {
-
-    init = 1;
-    // fill in with regular procedure
-
-  }
+	} else {
 
 	// Initialize thread
 	thread = (my_pthread_t *) malloc(sizeof(my_pthread_t));
@@ -80,12 +74,12 @@ int my_pthread_create(my_pthread_t *thread, my_pthread_attr_t *attr, void *(*fun
 	makecontext(thread->context, (void(*)()) function, 1, arg);
 
 	// Add to priority queue
-
-	// Do stuff needed if this is the first thread made
-	if (initial_thread == 1)
-		{
-		initial_thread = 0;
-		}
+	queue_node *node = malloc(sizeof(queue_node));
+	node->priority = 1;
+	node->thread = thread;
+	queue = enqueue(1,thread,queue);
+	
+	}
 
 	return 0;
 }
