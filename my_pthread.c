@@ -11,9 +11,7 @@
 #include <ucontext.h>
 #include <string.h>
 #include <stdio.h>
-#include "my_pthread.h"
-
-#define STACKSIZE = 1000000
+#include "my_pthread_t.h"
 
 // Global variables
 int thread_counter = 1;
@@ -57,8 +55,8 @@ int my_pthread_create(my_pthread_t * thread, my_pthread_attr_t * attr, void *(*f
 
 	// Set thread id, stack
 	thread->thread_id = thread_counter++;
-	(thread->context)->uc_stack.ss_pp = malloc(STACK_SIZE);
-	(thread->context)->uc_stack.ss_size = STACK_SIZE;
+	(thread->context)->uc_stack.ss_pp = malloc(100000);
+	(thread->context)->uc_stack.ss_size = 100000;
 	(thread->context)->uc_link = NULL;
 
 	// Make context with function
@@ -87,6 +85,9 @@ void my_pthread_exit(void *value_ptr){
 	queue_node * node1 = peek(thread_queue_1);
 	queue_node * node2 = peek(thread_queue_2);
 	
+	int infirst == 0;
+	int node_id == -1;
+	
 	// Check each one to remove the thread
 	if (node1 != NULL)
 		{
@@ -94,18 +95,28 @@ void my_pthread_exit(void *value_ptr){
 		
 		if (current_thread->thread_id == nodethread->thread_id)
 			{
-				free(dequeue(&thread_queue_1));
+				node1 = dequeue(&thread_queue_1));
+				int node_id = (node1->thread)->thread_id;
+				
+				free(node1->thread);
+				free(node1);
+				
+				infirst = 1;
 			}
 		}
-	else 	// Use node2
+		
+	if (infirst == 0) 	// Use node2
 		{
 		my_pthread_t * nodethread = node2->thread;
 		
-		if (current_thread->thread_id == nodethread->thread_id)
-			{
-				free(dequeue(&thread_queue_2));
-			}
+		node2 = dequeue(&thread_queue_2));
+		int node_id = (node1->thread)->thread_id;
+		
+		free(node2->thread);
+		free(node2);
 		}
+	
+	// Remove from waiting queue
 	
 	current_thread = NULL;
 	my_pthread_yield();
@@ -113,6 +124,8 @@ void my_pthread_exit(void *value_ptr){
 }
 
 int my_pthread_join(my_pthread_t thread, void **value_ptr){
+	
+
 }
 
 int my_pthread_mutex_init(my_pthread_mutex_t *mutex, const my_pthread_mutexattr_t *mutexattr){
