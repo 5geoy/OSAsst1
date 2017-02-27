@@ -4,7 +4,6 @@
  * This file is the implementation of the pthreads.
  */
 #include <stdlib.h>
-#include "my_pthread.h"
 #include <sys/time.h>
 #include <unistd.h>
 #include <signal.h>
@@ -12,6 +11,7 @@
 #include <ucontext.h>
 #include <string.h>
 #include <stdio.h>
+#include "my_pthread.h"
 
 #define STACKSIZE = 1000000
 
