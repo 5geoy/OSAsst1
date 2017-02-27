@@ -79,19 +79,6 @@ queue_node* peek(queue_node * last_node){
 	return ptr;
 }
 
-/*
-	print all values in the queue
-*/
-
-
-void printQueue(queue_node *last_node){
-	queue_node *ptr = last_node;
-	//printf("%s\n", iter->thread->string);
-	while(ptr){
-		printf("%s\n", ptr->thread->string);
-		ptr++;
-	}
-}
 
 // ------------------- Thread stuff -------------------------------
 
