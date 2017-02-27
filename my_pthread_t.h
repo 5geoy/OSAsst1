@@ -1,7 +1,7 @@
 #ifndef MY_PTHREAD_T_H
 #define MY_PTHREAD_T_H
 
-ttypedef struct my_pthread_t {
+typedef struct my_pthread_t {
 
 	int thread_id;
 	ucontext_t * context;
