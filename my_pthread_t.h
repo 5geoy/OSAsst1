@@ -1,18 +1,25 @@
 #ifndef MY_PTHREAD_T_H
 #define MY_PTHREAD_T_H
 
-typedef struct my_pthread_t {
-	//fill in with rest needed
+ttypedef struct my_pthread_t {
+
 	int thread_id;
 	ucontext_t * context;
-	char * function_name;
+	char * string;
+	my_pthread_state state;
+	void* return_value;
+
 }my_pthread_t;
+
 
 typedef struct queue_node {
 	int priority;
 	my_pthread_t* thread;
 	struct queue_node *next;
+	int waiting_id;
+	void **join_value;
 }queue_node;
+
 
 typedef struct my_pthread_attr_t {
 	//fill in as needed
