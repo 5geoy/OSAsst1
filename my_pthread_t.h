@@ -48,4 +48,12 @@ int my_pthread_mutex_lock(my_pthread_mutex_t *mutex);
 int my_pthread_mutex_unlock(my_pthread_mutex_t *mutex);
 
 int my_pthread_mutex_destroy(my_pthread_mutex_t *mutex);
+
+queue_node* enqueue(queue_node *new_node, queue_node *last_node,int *queue_size);
+	
+queue_node* dequeue(queue_node ** last_node, int * queue_size);
+
+queue_node* peek(queue_node * last_node);
+
+void printQueue(queue_node *last_node);
 #endif
