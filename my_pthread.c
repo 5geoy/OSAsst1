@@ -28,8 +28,7 @@ my_pthread_t *current_thread = NULL;
 
 int my_pthread_create(my_pthread_t * thread, my_pthread_attr_t * attr, void *(*function)(void*), void * arg){
 
-	if (init == 0)
-		{
+	if (init == 0){
 		my_pthread_t * init_thread = (my_pthread_t *) malloc(sizeof(my_pthread_t));
 		init_thread->context = (ucontext_t *) malloc(sizeof(ucontext_t));
 		
@@ -41,7 +40,7 @@ int my_pthread_create(my_pthread_t * thread, my_pthread_attr_t * attr, void *(*f
 		
 		//Add to queue?
 		thread_queue_1 = enqueue(1,thread,thread_queue_1);
-		}
+	}
 
 	// Initialize thread
 	thread = (my_pthread_t *) malloc(sizeof(my_pthread_t));
