@@ -1,15 +1,15 @@
 /* Assignment 1 - Scheduler
  * Members: Lawrence Maceren, Swapneel Chalageri, George Elia
- * ilab machine tested on: XXXXX.cs.rutgers.edu
+ * ilab machine tested on: cpp.cs.rutgers.edu
  * This file is the implementation of the pthreads.
  */
 #include <stdlib.h>
-#include "my_pthread_t.h"
+#include "my_pthread.h"
 #include <sys/time.h>
 #include <unistd.h>
 #include <signal.h>
-#include <ucontext.h>
 //#include "queue.c"
+#include <ucontext.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -81,8 +81,35 @@ void my_pthread_yield(){
 	
 	
 }
- /*
+
 void my_pthread_exit(void *value_ptr){
+	// Get top of each queue
+	queue_node * node1 = peek(thread_queue_1);
+	queue_node * node2 = peek(thread_queue_2);
+	
+	// Check each one to remove the thread
+	if (node1 != NULL)
+		{
+		my_pthread_t * nodethread = node1->thread;
+		
+		if (current_thread->thread_id == nodethread->thread_id)
+			{
+				free(dequeue(&thread_queue_1));
+			}
+		}
+	else 	// Use node2
+		{
+		my_pthread_t * nodethread = node2->thread;
+		
+		if (current_thread->thread_id == nodethread->thread_id)
+			{
+				free(dequeue(&thread_queue_2));
+			}
+		}
+	
+	current_thread = NULL;
+	my_pthread_yield();
+	return;
 }
 
 int my_pthread_join(my_pthread_t thread, void **value_ptr){
