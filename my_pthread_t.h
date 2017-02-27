@@ -1,5 +1,5 @@
-#ifndef MY_PTHREAD_T_H_
-#define MY_PTHREAD_T_H_
+#ifndef MY_PTHREAD_T_H
+#define MY_PTHREAD_T_H
 
 typedef struct queue_node {
 	int priority;
