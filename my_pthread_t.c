@@ -9,49 +9,40 @@
 #include <unistd.h>
 #include <signal.h>
 #include <ucontext.h>
-#include "queue.c"
+//#include "queue.c"
 #include <string.h>
+#include <stdio.h>
 
 #define STACKSIZE = 1000000
 
 // Global variables
 int thread_counter = 1;
-queue * queue;
 ucontext_t * main_context;
 ucontext_t * scheduler_context;
+queue_node * thread_queue_1 = NULL;
+queue_node * thread_queue_2 = NULL;
 int init = 0;
 
+my_pthread_t *current_thread = NULL;
 
-int my_pthread_create(my_pthread_t *thread, my_pthread_attr_t *attr, void *(*function)(void*), void * arg){
+//// --------------------- Thread stuff -----------------------------
 
-	if (init == 0){
-		// special case on the first iteration
+int my_pthread_create(my_pthread_t * thread, my_pthread_attr_t * attr, void *(*function)(void*), void * arg){
 
-		// Allocate memory for thread stack
-		char * thread_stack = (char *)malloc(2048);
-
-		// Create ucontext
-		ucontext_t context;
-		ucontext_t * main_context = &context;
-
-		// Initialize ucontext
-		if (getcontext(main_context) == -1) {
-		return -1;
+	if (init == 0)
+		{
+		my_pthread_t * init_thread = (my_pthread_t *) malloc(sizeof(my_pthread_t));
+		init_thread->context = (ucontext_t *) malloc(sizeof(ucontext_t));
+		
+		// Initialize main
+		init_thread->thread_id = 0;
+		getcontext(init_thread->context);
+		
+		init = 1;
+		
+		//Add to queue?
+		thread_queue_1 = enqueue(1,thread,thread_queue_1);
 		}
-
-		main_context->uc_stack.ss_sp = thread_stack;
-		main_context->uc_stack.ss_size = sizeof(thread_stack);
-		main_context->uc_link = sched_ctx;
-
-		//not sure what to put here
-		makecontext(main_context, (void (*)(void))function, 1, ******);
-
-		/// Library: new thread initialized\n");
-
-		// Add thread ucontext to queue
-		enqueue(queue, main_context);
-
-	} else {
 
 	// Initialize thread
 	thread = (my_pthread_t *) malloc(sizeof(my_pthread_t));
@@ -74,10 +65,10 @@ int my_pthread_create(my_pthread_t *thread, my_pthread_attr_t *attr, void *(*fun
 	makecontext(thread->context, (void(*)()) function, 1, arg);
 
 	// Add to priority queue
-	queue_node *node = malloc(sizeof(queue_node));
+	queue_node * node = malloc(sizeof(queue_node));
 	node->priority = 1;
 	node->thread = thread;
-	queue = enqueue(1,thread,queue);
+	thread_queue_1 = enqueue(1,thread,thread_queue_1);
 	
 	}
 
@@ -85,8 +76,12 @@ int my_pthread_create(my_pthread_t *thread, my_pthread_attr_t *attr, void *(*fun
 }
 
 void my_pthread_yield(){
+	// Create timer
+	
+	
+	
 }
-
+ /*
 void my_pthread_exit(void *value_ptr){
 }
 

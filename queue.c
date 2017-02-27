@@ -1,13 +1,13 @@
 
 /*
-  buildss a queue_node and places at end of queue
+  builds a queue_node and places at end of queue
   return last_node after new enqueue
 	
 */
 
 queue_node* enqueue(int priority, my_pthread_t * thread, queue_node *last_node){
 
-	queue_node new_node = malloc(sizeof(queue_node));
+	queue_node* new_node = malloc(sizeof(queue_node));
 	new_node->priority = priority;
 	new_node->thread = thread;
 

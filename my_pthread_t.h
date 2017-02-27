@@ -7,7 +7,6 @@ typedef struct queue_node {
 	struct queue_node *next;
 }queue_node;
 
-
 typedef struct my_pthread_t {
 	//fill in with rest needed
 	int thread_id;
