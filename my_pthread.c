@@ -19,6 +19,7 @@ ucontext_t * main_context;
 ucontext_t * scheduler_context;
 queue_node * thread_queue_1 = NULL;
 queue_node * thread_queue_2 = NULL;
+queue_node * thread_queue_wait = NULL;
 int init = 0;
 
 my_pthread_t *current_thread = NULL;
