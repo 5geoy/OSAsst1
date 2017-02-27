@@ -5,20 +5,21 @@
 	
 */
 
-queue_node* enqueue(int priority, my_pthread_t * thread, queue_node *last_node){
 
-	queue_node* new_node = malloc(sizeof(queue_node));
-	new_node->priority = priority;
-	new_node->thread = thread;
+queue_node* enqueue(queue_node * new_node, queue_node *last_node,int * queue_size){
 
-	if (last_node == NULL){
+	if(last_node==NULL){
 		new_node->next = NULL;
-	} else {
-		new_node->next = last_node;
+		(*queue_size)++;
+		return new_node;
 	}
-
+	new_node->next = last_node;
+	(*queue_size)++;
 	return new_node;
+
 }
+
+
 
 /*
 	dequeue(&queue)
@@ -26,26 +27,24 @@ queue_node* enqueue(int priority, my_pthread_t * thread, queue_node *last_node){
 */
 
 
-queue_node* dequeue(queue_node ** last_node){
-
-	if((*last_node) == NULL){
+queue_node* dequeue(queue_node ** last_node, int * queue_size){
+	
+	if((*last_node) == NULL)
 		return NULL;
-	}
 	queue_node *ptr = NULL;
 	queue_node *prev = NULL;
-
-	for (queue_node *ptr = (*last_node); ptr->next != NULL; ptr++){
+	ptr = (*last_node);
+	while(ptr->next){
 		prev = ptr;
+		ptr = ptr->next;
 	}
-
-	if (prev != NULL){
+	if(prev){
 		prev->next = NULL;
-	} else {
+	}else{
 		(*last_node) = NULL;
 	}
-
+	(*queue_size)--;
 	return ptr;
-
 }
 
 /*
@@ -55,10 +54,9 @@ queue_node* peek(queue_node * last_node){
 	if(last_node == NULL){
 		return NULL;
 	}
-
-	queue_node *ptr = last_node;
-
-	while(ptr->next != NULL){
+	queue_node *ptr = NULL;
+	ptr = last_node;
+	while(ptr->next){
 		ptr++;
 	}
 	return ptr;
@@ -68,15 +66,12 @@ queue_node* peek(queue_node * last_node){
 	print all values in the queue
 */
 
-void printQueue(queue_node * last_node){
+
+void printQueue(queue_node *last_node){
 	queue_node *ptr = last_node;
-	printf("%s\n", ptr->thread->function_name);
-	while(ptr != NULL){
-		printf("%s\n", ptr->thread->function_name);
+	//printf("%s\n", iter->thread->string);
+	while(ptr){
+		printf("%s\n", ptr->thread->string);
 		ptr++;
 	}
-}
-
-void priorityThread(queue_node * last_node, my_pthread_t thread){
-
 }
